@@ -60,8 +60,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final GlobalKey globalKeyOne = GlobalKey();
   final GlobalKey globalKeyTwo = GlobalKey();
-  // final GlobalKey globalKeyThree = GlobalKey();
-  // final GlobalKey globalKeyFour = GlobalKey();
 
   @override
   void initState() {
