@@ -1,54 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mlcloud/showcase.dart';
+import 'package:showcaseview/showcaseview.dart';
 
-final hidechat = StateProvider<bool>(
-  (ref) => true,
-);
+// class HomeScreen extends ConsumerStatefulWidget {
+//   const HomeScreen({super.key});
 
-class HomeScreen extends HookConsumerWidget {
-  const HomeScreen({super.key});
+//   @override
+//   ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
+// }
+
+// class _HomeScreenState extends ConsumerState<HomeScreen> {
+//   final GlobalKey globalKeyOne = GlobalKey();
+//   final GlobalKey globalKeyTwo = GlobalKey();
+//   final GlobalKey globalKeyThree = GlobalKey();
+//   final GlobalKey globalKeyFour = GlobalKey();
+//   @override
+//   void initState() {
+//     WidgetsBinding.instance.addPostFrameCallback(
+//       (_) => ShowCaseWidget.of(context).startShowCase(
+//         [
+//           globalKeyOne,
+//           globalKeyTwo,
+//           globalKeyThree,
+//           globalKeyFour,
+//         ],
+//       ),
+//     );
+//     super.initState();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('BottomNavigationBar Sample'),
+//       ),
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: () {},
+//         child: ShowCaseView(
+//           globalKey: globalKeyOne,
+//           title: 'Homeascreen',
+//           description: 'this my first app',
+//           child: Icon(Icons.add),
+//         ),
+//       ),
+//     );
+//   }
+// }
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    Future<void> hide() async {
-      await Future.delayed(const Duration(seconds: 5), () {
-        ref.read(hidechat.notifier).state = false;
-      });
-    }
+  State<MyHomePage> createState() => _MyHomePageState();
+}
 
-    useEffect((() {
-      hide();
-    }));
-    final hidevalue = ref.watch(hidechat);
+class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey globalKeyOne = GlobalKey();
+  final GlobalKey globalKeyTwo = GlobalKey();
+  // final GlobalKey globalKeyThree = GlobalKey();
+  // final GlobalKey globalKeyFour = GlobalKey();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => ShowCaseWidget.of(context).startShowCase([
+              globalKeyOne,
+              globalKeyTwo,
+            ]));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Welcome to CLoudML'),
         centerTitle: true,
+        title: Text('Cloud ML'),
+        actions: [
+          ShowCaseView(
+            globalKey: globalKeyOne,
+            title: 'Notification',
+            description: "click here",
+            child: Icon(Icons.dangerous),
+          )
+        ],
       ),
-      body: Lottie.network(
-        'https://assets9.lottiefiles.com/packages/lf20_tZM2243sgC.json',
+      floatingActionButton: ShowCaseView(
+        globalKey: globalKeyTwo,
+        title: 'Add Users',
+        description: 'Add new user data by clicking this button.',
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Colors.amber,
+          child: const Icon(Icons.add),
+        ),
       ),
-      floatingActionButton: hidevalue
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                const Text('Chat with Mentor'),
-                FloatingActionButton(
-                  backgroundColor: Colors.white,
-                  onPressed: () {},
-                  child: Lottie.network(
-                    'https://assets7.lottiefiles.com/packages/lf20_iilq3soe.json',
-                  ),
-                ),
-              ],
-            )
-          : null,
     );
   }
 }

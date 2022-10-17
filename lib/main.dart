@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:mlcloud/home.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -18,7 +20,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const HomeScreen(),
+      home: Builder(builder: (context) {
+        return ShowCaseWidget(
+            builder: Builder(
+                builder: (context) =>
+                    const MyHomePage(title: 'Welcome to CloudMl')));
+      }),
     );
   }
 }
